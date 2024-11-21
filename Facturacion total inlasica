@@ -1,0 +1,12 @@
+	select  ao.name,  sum(rcid.linelimitamt) as total  from rv_c_invoice_dayline rcid , ad_org ao 
+where rcid.ad_client_id =1000000
+--and rcid.ad_org_id =1000015
+and rcid.issotrx ='Y'
+and to_char(dateinvoiced,'yyyymmdd')
+between '20241120' and '20241120'
+and rcid.docstatus ='CO'
+and rcid.c_currency_id = 100
+
+and rcid.ad_org_id in ( SELECT N.Node_ID from   getnodes(1000012,1000004,1000000)  AS N(Parent_ID numeric,Node_ID numeric) )
+and ao.ad_org_id = rcid.ad_org_id
+group by 1
